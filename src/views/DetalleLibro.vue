@@ -3,7 +3,9 @@
     <router-link to="/libros" class="volver">← Volver al catálogo</router-link>
 
     <div v-if="libro" class="ficha">
-      <div class="portada"></div>
+      <div class="portada">
+        <img v-if="libro.portada" :src="libro.portada" :alt="libro.titulo" />
+      </div>
 
       <div class="datos">
         <p class="etiqueta">{{ libro.categoria }}</p>
@@ -54,6 +56,7 @@ const libro = computed(() => {
   aspect-ratio: 3 / 4;
   background-color: var(--color-linea);
   border-radius: var(--radio);
+  overflow: hidden;
 }
 
 .autor {
@@ -68,5 +71,12 @@ const libro = computed(() => {
 .vacio {
   color: var(--color-secundario);
   margin-top: var(--espacio-3);
+}
+
+.portada img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 </style>

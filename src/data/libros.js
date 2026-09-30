@@ -1,38 +1,47 @@
 export const librosIniciales = [
   {
     id: 1,
-    titulo: 'El ojo y el espíritu',
-    autor: 'Maurice Merleau-Ponty',
-    categoria: 'Ensayo',
-    descripcion: 'Ensayo breve sobre la pintura y la percepción, escrito el año de su muerte.',
+    titulo: 'Seurat: la ciencia del color',
+    autor: 'Georges Seurat',
+    categoria: 'Catálogo',
+    descripcion: 'Catálogo de exposición dedicado al puntillismo y a los estudios ópticos que lo sustentan.',
     ejemplares: 3,
-    portada: ''
+    portada: require('@/assets/portadas/seurat.webp')
   },
   {
     id: 2,
-    titulo: 'Catálogo Bienal de Arte Joven',
-    autor: 'VV. AA.',
+    titulo: 'Corot: paisaje y memoria',
+    autor: 'Jean-Baptiste Camille Corot',
     categoria: 'Catálogo',
-    descripcion: 'Registro completo de la muestra, con fichas técnicas de cada obra.',
+    descripcion: 'Reúne los paisajes italianos del pintor y ensayos sobre la construcción del recuerdo.',
     ejemplares: 1,
-    portada: ''
+    portada: require('@/assets/portadas/corot.webp')   
   },
   {
     id: 3,
-    titulo: 'Cuaderno de bocetos',
-    autor: 'Ana Mendieta',
-    categoria: 'Libro de artista',
-    descripcion: 'Facsímil de los cuadernos de trabajo de la artista cubano-estadounidense.',
+    titulo: 'El autorretrato como género',
+    autor: 'Walter Shirlaw',
+    categoria: 'Ensayo',
+    descripcion: 'Ensayo sobre la mirada del artista hacia sí mismo y la construcción de la imagen propia.',
     ejemplares: 0,
-    portada: ''
+    portada: require('@/assets/portadas/shirlaw.jpg')
   },
   {
     id: 4,
-    titulo: 'Sobre la fotografía',
-    autor: 'Susan Sontag',
+    titulo: 'Estampa y retrato',
+    autor: 'Gérard Edelinck',
+    categoria: 'Libro de artista',
+    descripcion: 'Facsímil de una serie de grabados sobre la reproducción del rostro en el siglo XVII.',
+    ejemplares: 2,
+    portada: require('@/assets/portadas/edelinck.jpg')
+  },
+  {
+    id: 5,
+    titulo: 'Pintura de género',
+    autor: 'Lawrence Carmichael Earle',
     categoria: 'Ensayo',
-    descripcion: 'Seis ensayos sobre la imagen fotográfica y su relación con la memoria.',
-    ejemplares: 5,
-    portada: ''
+    descripcion: 'Revisión de la escena cotidiana como motivo pictórico en el siglo XIX.',
+    ejemplares: 4,
+    portada: require('@/assets/portadas/lawrence.webp')
   }
 ]

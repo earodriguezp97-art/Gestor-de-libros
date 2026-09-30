@@ -4,8 +4,7 @@
 
     <FormularioLibro @agregar="$emit('agregar', $event)" />
 
-    <input v-model="busqueda" type="text" placeholder="Buscar por título" class="buscador" />
-
+    <input v-model="busqueda" type="text" placeholder="Buscar por título o autor" class="buscador" />
     <div class="filtros">
       <button class="filtro" :class="{ activo: categoriaActiva === 'todas' }" @click="categoriaActiva = 'todas'">
         Todas
@@ -22,7 +21,8 @@
     </p>
 
     <div v-else class="grilla">
-      <Libro v-for="libro in librosFiltrados" :key="libro.id" :libro="libro" @eliminar="$emit('eliminar', $event)" />
+      <Libro v-for="libro in librosFiltrados" :key="libro.id" :libro="libro" @eliminar="$emit('eliminar', $event)"
+        @entrada="$emit('entrada', $event)" @salida="$emit('salida', $event)" />
     </div>
   </section>
 </template>
@@ -39,7 +39,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['eliminar', 'agregar'])
+defineEmits(['eliminar', 'agregar', 'entrada', 'salida'])
 
 const categoriaActiva = ref('todas')
 const busqueda = ref('')
@@ -63,7 +63,10 @@ const librosFiltrados = computed(() => {
 
   if (busqueda.value !== '') {
     const texto = busqueda.value.toLowerCase()
-    resultado = resultado.filter(libro => libro.titulo.toLowerCase().includes(texto))
+    resultado = resultado.filter(libro =>
+      libro.titulo.toLowerCase().includes(texto) ||
+      libro.autor.toLowerCase().includes(texto)
+    )
   }
 
   return resultado

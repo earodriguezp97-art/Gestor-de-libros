@@ -1,31 +1,37 @@
 <template>
   <article class="tarjeta" v-agotado="libro.ejemplares">
-  <div class="portada"></div>
-
-  <div class="cuerpo">
-    <p class="etiqueta">{{ libro.categoria }}</p>
-    <router-link :to="'/libros/' + libro.id">
-      <h3>{{ libro.titulo }}</h3>
-    </router-link>
-    <p class="texto-secundario">{{ libro.autor }}</p>
-
-    <button class="ver-mas" @click="verDescripcion = !verDescripcion">
-      {{ verDescripcion ? 'Ocultar' : 'Ver descripción' }}
-    </button>
-
-    <p v-show="verDescripcion" class="descripcion">
-      {{ libro.descripcion }}
-    </p>
-
-    <div class="pie">
-      <span v-if="libro.ejemplares > 0" class="ejemplares">
-        {{ libro.ejemplares }} ejemplares
-      </span>
-      <span v-else class="agotado">Agotado</span>
-
-      <button @click="$emit('eliminar', libro.id)">Eliminar</button>
+    <div class="portada">
+      <img v-if="libro.portada" :src="libro.portada" :alt="libro.titulo" />
     </div>
-  </div>
+
+    <div class="cuerpo">
+      <p class="etiqueta">{{ libro.categoria }}</p>
+      <router-link :to="'/libros/' + libro.id">
+        <h3>{{ libro.titulo }}</h3>
+      </router-link>
+      <p class="texto-secundario">{{ libro.autor }}</p>
+
+      <button class="ver-mas" @click="verDescripcion = !verDescripcion">
+        {{ verDescripcion ? 'Ocultar' : 'Ver descripción' }}
+      </button>
+
+      <p v-show="verDescripcion" class="descripcion">
+        {{ libro.descripcion }}
+      </p>
+
+      <div class="pie">
+        <span v-if="libro.ejemplares > 0" class="ejemplares">
+          {{ libro.ejemplares }} ejemplares
+        </span>
+        <span v-else class="agotado">Agotado</span>
+
+        <div class="controles">
+          <button @click="$emit('salida', libro.id)">−</button>
+          <button @click="$emit('entrada', libro.id)">+</button>
+          <button @click="$emit('eliminar', libro.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
   </article>
 </template>
 
@@ -39,7 +45,7 @@ defineProps({
   }
 })
 
-defineEmits(['eliminar'])
+defineEmits(['eliminar', 'entrada', 'salida'])
 
 const verDescripcion = ref(false)
 </script>
@@ -94,5 +100,18 @@ const verDescripcion = ref(false)
 .descripcion {
   font-size: 0.9rem;
   margin-top: var(--espacio-1);
+}
+
+.controles {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-1);
+}
+
+.portada img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 </style>
