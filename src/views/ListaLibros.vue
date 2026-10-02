@@ -2,7 +2,7 @@
   <section class="contenedor">
     <h2>Catálogo</h2>
 
-    <FormularioLibro @agregar="$emit('agregar', $event)" />
+    <FormularioLibro/>
 
     <input v-model="busqueda" type="text" placeholder="Buscar por título o autor" class="buscador" />
     <div class="filtros">

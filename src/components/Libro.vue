@@ -6,9 +6,16 @@
 
     <div class="cuerpo">
       <p class="etiqueta">{{ libro.categoria }}</p>
-      <router-link :to="'/libros/' + libro.id">
-        <h3>{{ libro.titulo }}</h3>
-      </router-link>
+
+      <div class="fila-titulo">
+        <router-link :to="'/libros/' + libro.id">
+          <h3>{{ libro.titulo }}</h3>
+        </router-link>
+        <button class="boton-favorito" @click="alternarFavorito">
+          {{ esFavorito ? '★' : '☆' }}
+        </button>
+      </div>
+
       <p class="texto-secundario">{{ libro.autor }}</p>
 
       <button class="ver-mas" @click="verDescripcion = !verDescripcion">
@@ -36,9 +43,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
-defineProps({
+const props = defineProps({
   libro: {
     type: Object,
     required: true
@@ -47,7 +55,15 @@ defineProps({
 
 defineEmits(['eliminar', 'entrada', 'salida'])
 
+const store = useStore()
+
 const verDescripcion = ref(false)
+
+const esFavorito = computed(() => store.getters['favoritos/ids'].includes(props.libro.id))
+
+function alternarFavorito() {
+  store.commit('favoritos/TOGGLE_FAVORITO', props.libro.id)
+}
 </script>
 
 <style scoped>
@@ -65,6 +81,22 @@ const verDescripcion = ref(false)
 
 .cuerpo {
   padding: var(--espacio-2);
+}
+
+.fila-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-1);
+}
+
+.boton-favorito {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--color-texto);
 }
 
 .pie {

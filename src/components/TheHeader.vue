@@ -9,6 +9,7 @@
                     <router-link to="/libros">Catálogo</router-link>
                 </nav>
                 <span class="texto-secundario">{{ usuario }}</span>
+                <button class="salir" @click="$emit('salir')">Salir</button>
             </div>
         </div>
     </header>
@@ -21,6 +22,7 @@ defineProps({
         required: true
     }
 })
+defineEmits(['salir'])
 </script>
 
 <style scoped>
@@ -55,5 +57,15 @@ nav {
     display: flex;
     align-items: center;
     gap: var(--espacio-3);
+}
+
+.salir {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--color-secundario);
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import InicioView from '../views/InicioView.vue'
 import ListaLibros from '../views/ListaLibros.vue'
 import DetalleLibro from '../views/DetalleLibro.vue'
+import NoEncontrado from '../views/NoEncontrado.vue'
 
 const routes = [
   {
@@ -19,7 +20,12 @@ const routes = [
     name: 'detalle',
     component: DetalleLibro,
     props: true
-  }
+  },
+  {
+  path: '/:pathMatch(.*)*',
+  name: 'no-encontrado',
+  component: NoEncontrado
+}
 ]
 
 const router = createRouter({

@@ -37,9 +37,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 const router = useRouter()
-const emit = defineEmits(['agregar'])
+const store = useStore()
 
 const titulo = ref('')
 const autor = ref('')
@@ -48,18 +49,13 @@ const descripcion = ref('')
 const ejemplares = ref(1)
 const error = ref('')
 
-let ultimoId = 100
-
-function enviar() {
+async function enviar() {
     if (titulo.value === '' || autor.value === '' || categoria.value === '') {
         error.value = 'Faltan el título, el autor o la categoría.'
         return
     }
 
-    ultimoId = ultimoId + 1
-
-    emit('agregar', {
-        id: ultimoId,
+    const nuevo = await store.dispatch('libros/agregarLibro', {
         titulo: titulo.value,
         autor: autor.value,
         categoria: categoria.value,
@@ -75,9 +71,8 @@ function enviar() {
     ejemplares.value = 1
     error.value = ''
 
-    router.push('/libros/' + ultimoId)
+    router.push('/libros/' + nuevo.id)
 }
-
 </script>
 
 <style scoped>

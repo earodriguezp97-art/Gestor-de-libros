@@ -35,7 +35,7 @@ const props = defineProps({
 })
 
 const libro = computed(() => {
-  return props.libros.find(item => item.id === Number(props.id))
+  return props.libros.find(item => item.id === props.id)
 })
 </script>
 

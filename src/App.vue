@@ -2,59 +2,47 @@
   <IngresoArchivo v-if="usuario === ''" @ingresar="entrarAlArchivo" />
 
   <template v-else>
-    <TheHeader :usuario="usuario" />
+    <TheHeader :usuario="usuario" @salir="salirDelArchivo" />
     <main>
-      <router-view :libros="libros" @agregar="agregarLibro" @eliminar="eliminarLibro" @entrada="entradaEjemplar"
-        @salida="salidaEjemplar" />
+      <router-view :libros="libros" @eliminar="eliminarLibro" @entrada="entradaEjemplar" @salida="salidaEjemplar" />
     </main>
+    <SitioFooter />
   </template>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 import TheHeader from './components/TheHeader.vue'
 import IngresoArchivo from './components/IngresoArchivo.vue'
-import { librosIniciales } from './data/libros.js'
+import SitioFooter from './components/SitioFooter.vue'
 
-const librosGuardados = localStorage.getItem('archivo-libros')
-const libros = ref(librosGuardados ? JSON.parse(librosGuardados) : librosIniciales)
+const store = useStore()
 
-const usuarioGuardado = localStorage.getItem('archivo-usuario')
-const usuario = ref(usuarioGuardado ? usuarioGuardado : '')
+const libros = computed(() => store.getters['libros/lista'])
+const usuario = computed(() => store.getters['sesion/usuario'])
 
-watch(libros, (nuevosLibros) => {
-  localStorage.setItem('archivo-libros', JSON.stringify(nuevosLibros))
-}, { deep: true })
-
-watch(usuario, (nuevoUsuario) => {
-  localStorage.setItem('archivo-usuario', nuevoUsuario)
+onMounted(() => {
+  store.dispatch('libros/cargarLibros')
 })
 
 function entrarAlArchivo(nombre) {
-  usuario.value = nombre
-}
-
-function agregarLibro(nuevoLibro) {
-  libros.value.push(nuevoLibro)
+  store.commit('sesion/SET_USUARIO', nombre)
 }
 
 function eliminarLibro(id) {
-  libros.value = libros.value.filter(libro => libro.id !== id)
+  store.dispatch('libros/eliminarLibro', id)
 }
 
 function entradaEjemplar(id) {
-  const libro = libros.value.find(item => item.id === id)
-  if (libro) {
-    libro.ejemplares = libro.ejemplares + 1
-  }
+  store.dispatch('libros/entradaEjemplar', id)
 }
 
 function salidaEjemplar(id) {
-  const libro = libros.value.find(item => item.id === id)
-  if (libro) {
-    if (libro.ejemplares > 0) {
-      libro.ejemplares = libro.ejemplares - 1
-    }
-  }
+  store.dispatch('libros/salidaEjemplar', id)
+}
+
+function salirDelArchivo() {
+  store.commit('sesion/CERRAR_SESION')
 }
 </script>
